@@ -1,3 +1,4 @@
 fastapi
 cryptography
 uvicorn
+psycopg2
