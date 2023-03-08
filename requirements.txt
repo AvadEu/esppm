@@ -2,3 +2,4 @@ fastapi
 cryptography
 uvicorn
 psycopg2
+sqlalchemy
