@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, String
+from sqlalchemy import create_engine, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
 from sqlalchemy.engine.base import Engine
 
@@ -25,6 +25,14 @@ class Record(Base):
     service: Mapped[str] = mapped_column(String(50), nullable=False)
     login: Mapped[bytes] = mapped_column(nullable=False)
     password: Mapped[bytes] = mapped_column(nullable=False)
+    owner_id: Mapped[int] = mapped_column(ForeignKey('Users.id'))
+
+
+# Model for user kdf function salt
+class Secret(Base):
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
+    content: Mapped[bytes] = mapped_column(init=False, nullable=False)
+    owner_id: Mapped[int] = mapped_column(ForeignKey('Users.id'))
 
 
 # Creates database schema and returns engine 
