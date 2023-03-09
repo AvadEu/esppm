@@ -20,6 +20,6 @@ def hello_world():
 
 
 if __name__ == "__main__":
-    api_conf, db_conf = list(read_conf().values()[:2])
+    api_conf, db_conf = list(read_conf().values())[:2]
     engine = models.init_all(db_conf)
     uvicorn.run('app:app', host=api_conf['host'], port=api_conf['port'], reload=api_conf['reload'])

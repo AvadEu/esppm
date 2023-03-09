@@ -30,6 +30,7 @@ class Record(Base):
 
 # Model for user kdf function salt
 class Secret(Base):
+    __tablename__ = "Secrets"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     content: Mapped[bytes] = mapped_column(init=False, nullable=False)
     owner_id: Mapped[int] = mapped_column(ForeignKey('Users.id'))
