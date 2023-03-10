@@ -1,13 +1,12 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
-import uvicorn
 
-from app.utils.conf import read_conf
-import app.api.models as models
-
+from app.utils import read_conf, init_database
 
 app = FastAPI()
+
 db_conf = read_conf(filename='conf.toml', conf_title='db_conf')
+engine = init_database(db_conf)
 
 # Class to handle api "/register" post request body
 class Register_form(BaseModel):
@@ -28,5 +27,4 @@ def register(user: Register_form):
 
 
 def get_application() -> FastAPI:
-    engine = models.init_all(db_conf)
     return app
