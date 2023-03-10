@@ -1,10 +1,10 @@
-import models
-import uvicorn
-import tomllib
-from os import path
 from pydantic import BaseModel
 from fastapi import FastAPI
-from security import tools
+import uvicorn
+
+from app.utils.conf import read_conf
+import models
+
 
 app = FastAPI()
 
@@ -14,14 +14,6 @@ class Register_form(BaseModel):
     first_name: str
     last_name: str
     password: str
-
-
-# Function that reads application config and return it as a dictionary
-def read_conf() -> dict:
-    conf_path = path.join(path.dirname(path.dirname(path.abspath(__file__))),'conf.toml')
-    with open(conf_path, 'rb') as f:
-        conf = tomllib.load(f)
-        return conf
 
 
 @app.get('/')
@@ -35,6 +27,6 @@ def register(user: Register_form):
 
 
 if __name__ == "__main__":
-    api_conf, db_conf = list(read_conf().values())[:2]
+    api_conf, db_conf = list(read_conf('conf.toml').values())[:2]
     engine = models.init_all(db_conf)
     uvicorn.run('app:app', host=api_conf['host'], port=api_conf['port'], reload=api_conf['reload'])
