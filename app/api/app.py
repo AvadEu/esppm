@@ -1,20 +1,12 @@
-from pydantic import BaseModel
 from fastapi import FastAPI
 
+from app.api.pydantic_models import Register_form
 from app.utils import read_conf, init_database
 
 app = FastAPI()
 
 db_conf = read_conf(filename='conf.toml', conf_title='db_conf')
 engine = init_database(db_conf)
-
-# Class to handle api "/register" post request body
-class Register_form(BaseModel):
-    username: str
-    first_name: str
-    last_name: str
-    password: str
-
 
 @app.get('/')
 def hello_world():
