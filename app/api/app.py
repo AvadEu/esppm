@@ -3,10 +3,11 @@ from fastapi import FastAPI
 import uvicorn
 
 from app.utils.conf import read_conf
-import models
+import app.api.models as models
 
 
 app = FastAPI()
+db_conf = read_conf(filename='conf.toml', conf_title='db_conf')
 
 # Class to handle api "/register" post request body
 class Register_form(BaseModel):
@@ -26,7 +27,6 @@ def register(user: Register_form):
     pass
 
 
-if __name__ == "__main__":
-    api_conf, db_conf = list(read_conf('conf.toml').values())[:2]
+def get_application() -> FastAPI:
     engine = models.init_all(db_conf)
-    uvicorn.run('app:app', host=api_conf['host'], port=api_conf['port'], reload=api_conf['reload'])
+    return app
