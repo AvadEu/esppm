@@ -1,4 +1,18 @@
+# Environments
+.env
 .venv
+env/
+venv/
+ENV/
+
+# Python cache
 /__pycache__
 /app/__pycache__
 /app/*/__pycache__
+
+# IDE Settings
+.idea/
+.vscode/
+
+# Developement config
+dev_conf.toml
