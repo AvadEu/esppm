@@ -12,7 +12,7 @@ class Base(MappedAsDataclass, DeclarativeBase):
 class User(Base):
     __tablename__ = "Users"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    username: Mapped[str] = mapped_column(String(25), nullable=False)
+    username: Mapped[str] = mapped_column(String(25), nullable=False, unique=True)
     first_name: Mapped[str] = mapped_column(String(35), nullable=False)
     last_name: Mapped[str] = mapped_column(String(35), nullable=False)
     password_hash: Mapped[bytes] = mapped_column(nullable=False)
