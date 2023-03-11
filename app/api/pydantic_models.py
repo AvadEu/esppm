@@ -6,3 +6,4 @@ class Register_form(BaseModel):
     first_name: str
     last_name: str
     password: str
+    repeat_password: str
