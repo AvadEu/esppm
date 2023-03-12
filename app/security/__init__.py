@@ -1,1 +1,1 @@
-from .passwords import PasswordObject
+from .passwords import generate_hash
