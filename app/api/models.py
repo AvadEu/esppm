@@ -1,11 +1,14 @@
-from sqlalchemy import create_engine, String, ForeignKey
-from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column, Session
 from sqlalchemy.engine.base import Engine
 
 
 # Base class declaration
 class Base(MappedAsDataclass, DeclarativeBase):
-    pass
+    def add_to_db(self, engine: Engine):
+        with Session(engine) as session:
+            session.add(self)
+            session.commit()
 
 
 # Model for application user account

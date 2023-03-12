@@ -10,6 +10,6 @@ def init_database(conf: dict) -> Engine:
     postgres database using psycopg2 connector. It build entire database schema declared in
     models.py file and returns sqlalchemy.engine.base.Engine object of that database.
     """
-    engine = create_engine(f"postgresql+psycopg2://{conf['username']}:{conf['password']}@{conf['host']}/{conf['db_name']}", echo=True)
+    engine = create_engine(f"postgresql+psycopg2://{conf['username']}:{conf['password']}@{conf['host']}/{conf['db_name']}", echo=False)
     Base.metadata.create_all(bind=engine, checkfirst=True)
     return engine
