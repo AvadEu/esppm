@@ -20,6 +20,20 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(35), nullable=False)
     password_hash: Mapped[bytes] = mapped_column(nullable=False)
 
+    @classmethod
+    def query_user(cls: type, engine: Engine, username: str):
+        with Session(engine) as session:
+            res = session.query(cls).filter(cls.username == username).first()
+        return res
+    
+
+    def get_token_payload(self):
+        return {
+            'username': self.username,
+            'fist_name': self.first_name,
+            'last_name': self.last_name
+        }
+
 
 # Model for encrypted data record
 class Record(Base):
