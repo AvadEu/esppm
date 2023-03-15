@@ -1,2 +1,3 @@
 from .generate_hash import generate_hash
 from .authenticate_user import authenticate_user
+from .generate_jwt_secret import generate_jwt_secret
