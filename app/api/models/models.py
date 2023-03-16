@@ -2,6 +2,7 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column, Session
 from sqlalchemy.engine.base import Engine
 
+# TODO Add created_at timestamp to every model
 
 # Base class declaration
 class Base(MappedAsDataclass, DeclarativeBase):
