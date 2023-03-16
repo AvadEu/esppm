@@ -6,14 +6,19 @@ import jwt
 from app.api.errors import integrity_error_handler
 from app.api.pydantic_models import Register_form
 from app.security import generate_hash, authenticate_user
-from app.utils import read_conf, init_database
+from app.utils import read_conf, db_get_engine
 from app.api import models
+from app.api.routes import users
+from utils.database import DatabaseConnection
 
 app = FastAPI()
 app.add_exception_handler(IntegrityError, integrity_error_handler)
 
+
 db_conf = read_conf(filename='dev_conf.toml', conf_title='db_conf')
-engine = init_database(db_conf)
+db_con = DatabaseConnection(db_conf)
+engine = db_con.get_engine()
+db_con.init_all()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
@@ -35,20 +40,21 @@ def hello_world():
     return {'Hello': 'world!'}
 
 
-@app.post('/register')
-def register_user(user: Register_form):
-    if not user.password == user.repeat_password:
-        raise HTTPException(status_code=400, detail="Passwords do not match!")
-    password_hash = generate_hash(user.password)
-    new_user = models.User(
-        username=user.username,
-        first_name=user.first_name,
-        last_name=user.last_name, 
-        password_hash=password_hash 
-        )
-    new_user.add_to_db(engine=engine)
-    return {"detail": "Added successfully"}
+# @app.post('/register')
+# def register_user(user: Register_form):
+#     if not user.password == user.repeat_password:
+#         raise HTTPException(status_code=400, detail="Passwords do not match!")
+#     password_hash = generate_hash(user.password)
+#     new_user = models.User(
+#         username=user.username,
+#         first_name=user.first_name,
+#         last_name=user.last_name, 
+#         password_hash=password_hash 
+#         )
+#     new_user.add_to_db(engine=engine)
+#     return {"detail": "Added successfully"}
 
 
 def get_application() -> FastAPI:
+    app.include_router(users.router)
     return app
