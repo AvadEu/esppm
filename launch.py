@@ -1,7 +1,7 @@
 import uvicorn
 
 from app.api import get_application
-from app.utils import read_conf
+from app.utils.conf import read_conf
 from app.security import generate_jwt_secret
 
 app = get_application()
