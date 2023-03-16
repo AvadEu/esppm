@@ -21,7 +21,7 @@ class User(Base):
     password_hash: Mapped[bytes] = mapped_column(nullable=False)
 
     @classmethod
-    def query_user(cls: type, engine: Engine, username: str):
+    def get_user_by_username(cls: type, engine: Engine, username: str):
         with Session(engine) as session:
             res = session.query(cls).filter(cls.username == username).first()
         return res
