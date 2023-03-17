@@ -23,7 +23,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt_engine.decode(token)
-        #! payload = jwt.decode(token,"SECRET", algorithms=["HS256"])
         username = payload.get('username')
         user = get_user_by_username(username=username)
     except:
@@ -49,7 +48,6 @@ def login_for_token(form_data: OAuth2PasswordRequestForm = Depends()):
         )
     token_payload = user.get_token_payload()
     token = jwt_engine.encode(token_payload)
-    #! token = jwt.encode(token_payload,"SECRET")
     return {
         'access_token': token,
         'token_type': 'bearer'
