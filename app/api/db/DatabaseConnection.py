@@ -18,7 +18,7 @@ class DatabaseConnection():
             db_name=self.conf['db_name']
         )
 
-    def get_engine(self, echo: bool = True) -> Engine:
+    def get_engine(self, echo: bool = False) -> Engine:
         self.engine = create_engine(self.connection_string, echo=echo)
         return self.engine
     
