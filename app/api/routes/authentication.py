@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from starlette.status import HTTP_401_UNAUTHORIZED
 from dotenv import load_dotenv
 
-from app.api.models.pydantic_models import UserPydantic
+from app.api.models.schemas.users import UserPydantic
 from app.api.db.services import get_user_by_username
 from app.security.jwt import JWTEngine
 from app.security import authenticate_user

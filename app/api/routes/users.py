@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
-from app.api.models.pydantic_models import Register_form
+from app.api.models.schemas.users import RegisterUser
 from app.api.db.services import add_to_db
 from app.api.models.domain.users import User
 from app.security import generate_hash
@@ -10,7 +10,7 @@ from app.security import generate_hash
 router = APIRouter()
 
 @router.post('/register')
-def register_user(user: Register_form):
+def register_user(user: RegisterUser):
     if not user.password == user.repeat_password:
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST, 
