@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.engine.base import Engine
 
-from app.api.models.orm import Base
+from app.api.models.domain.base import Base
 
 class DatabaseConnection():
     """

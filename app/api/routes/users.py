@@ -4,7 +4,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 from app.api.models.pydantic_models import Register_form
 from app.api.db.services import add_to_db
-from app.api.models import orm as models
+from app.api.models.domain.users import User
 from app.security import generate_hash
 
 router = APIRouter()
@@ -18,7 +18,7 @@ def register_user(user: Register_form):
             )
     
     password_hash = generate_hash(user.password)
-    new_user = models.User(
+    new_user = User(
         username=user.username,
         first_name=user.first_name,
         last_name=user.last_name, 

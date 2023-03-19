@@ -10,6 +10,7 @@ ENV/
 /app/__pycache__
 /app/*/__pycache__
 /app/*/*/__pycache__
+/app/*/*/*/__pycache__
 
 # IDE Settings
 .idea/

@@ -1,6 +1,8 @@
-from app.api.models.orm import User, Secret, Record
+from app.api.db.DatabaseConnection import DatabaseConnection
+from app.api.models.domain.records import Record
+from app.api.models.domain.secrets import Secret
+from app.api.models.domain.users import User
 from app.utils.conf import read_conf
-from . import DatabaseConnection
 
 db_config = read_conf(conf_title="db_conf", filename='dev_conf.toml')
 db_connection = DatabaseConnection(db_config)
