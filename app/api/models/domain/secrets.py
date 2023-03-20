@@ -6,5 +6,5 @@ from app.api.models.domain.base import Base
 class Secret(Base):
     __tablename__ = "Secrets"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    content: Mapped[bytes] = mapped_column(init=False, nullable=False)
-    owner_id: Mapped[int] = mapped_column(ForeignKey('Users.id'))
+    content: Mapped[bytes] = mapped_column(nullable=False)
+    owner: Mapped[str] = mapped_column(ForeignKey('Users.username'))

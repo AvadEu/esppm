@@ -9,4 +9,5 @@ class Record(Base):
     service: Mapped[str] = mapped_column(String(50), nullable=False)
     login: Mapped[bytes] = mapped_column(nullable=False)
     password: Mapped[bytes] = mapped_column(nullable=False)
-    owner_id: Mapped[int] = mapped_column(ForeignKey('Users.id'))
+    iv: Mapped[bytes] = mapped_column(nullable=False)
+    owner: Mapped[str] = mapped_column(ForeignKey('Users.username'))
