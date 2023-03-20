@@ -20,3 +20,16 @@ def get_user_by_username(username: str) -> User | None:
     with db_connection.get_session() as session:
         res = session.query(User).filter(User.username == username).first()
     return res
+
+
+def get_obj_by_owner(
+        obj: Record | Secret,
+        owner: str,
+        all_objects: bool = False
+    ) -> list | None:
+    with db_connection.get_session() as session:
+        res = session.query(obj).filter(obj.owner == owner)
+        if all_objects:
+            return res.all()
+        else:
+            return res.first()
