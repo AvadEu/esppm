@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from starlette.status import HTTP_201_CREATED
+from starlette import status
 
 from app.api.models.schemas.users import UserPydantic
 from app.api.models.schemas.records import RecordPydantic, GetRecords
@@ -12,7 +12,8 @@ from app.security.encryption.generate_cipher_key import generate_cipher_key
 from app.api.db.services import (
     add_to_db,
     get_user_by_username,
-    get_obj_by_owner
+    get_obj_by_owner,
+    delete_obj_by_id
     )
 
 import os
@@ -37,7 +38,7 @@ def add_record(record: RecordPydantic, user: UserPydantic = Depends(get_current_
     )
     add_to_db(new_record)
     return JSONResponse(
-        status_code=HTTP_201_CREATED,
+        status_code=status.HTTP_201_CREATED,
         content={'detail': 'Record added successfully'}
     )
 
@@ -56,3 +57,21 @@ def get_records(body: GetRecords, user: UserPydantic = Depends(get_current_user)
         }
         output.append(new_record)
     return output
+
+
+@router.delete('/records/delete')
+def delete_record(record_id: int, user: UserPydantic = Depends(get_current_user)):
+    try:
+        delete_obj_by_id(
+            obj=Record,
+            obj_id=record_id
+        )
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail="There's no record of id {}".format(record_id)
+        )
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={'detail': 'Record deleted successfully'}
+    )
