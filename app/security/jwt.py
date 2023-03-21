@@ -13,8 +13,9 @@ class JWTEngine():
         self.algorithm = algorithm
         if secret:
             self.secret = secret
-        self.key_length = key_length
-        self.secret = self.__generate_secret()
+        else:
+            self.key_length = key_length
+            self.secret = self.__generate_secret()
 
 
     def __generate_secret(self) -> str:
@@ -36,5 +37,8 @@ class JWTEngine():
 
 
     def decode(self, to_decode: str) -> dict:
-        payload = jwt.decode(to_decode, self.secret, algorithms=[self.algorithm])
+        try:
+            payload = jwt.decode(to_decode, self.secret, algorithms=[self.algorithm])
+        except jwt.PyJWTError:
+            raise ValueError("Unable to decode JWT token")
         return payload
