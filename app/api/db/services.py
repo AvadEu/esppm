@@ -33,3 +33,19 @@ def get_obj_by_owner(
             return res.all()
         else:
             return res.first()
+
+
+def delete_obj_by_id(
+        obj: Record | Secret,
+        obj_id: int
+        ) -> None:
+    with db_connection.get_session() as session:
+        res = session.query(obj).filter(obj.id == obj_id)
+        if res.first():
+            res.delete(synchronize_session=False)
+            session.commit()
+        else:
+            raise ValueError(
+                "Theres no object type {} of id: {} in database"
+                .format(obj.__name__, obj_id)
+                )
