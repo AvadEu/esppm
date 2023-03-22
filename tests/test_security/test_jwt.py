@@ -6,6 +6,7 @@ from app.security.jwt import JWTEngine
 TEST_SECRET = 'secret'
 TEST_ALGORITHM = "HS512"
 
+
 @pytest.fixture
 def content() -> dict:
     return {"content": "payload"}
@@ -17,7 +18,11 @@ def test_create_jwt_token_secret_provided(content) -> None:
         algorithm=TEST_ALGORITHM
     )
     token = engine.encode(content)
-    parsed_payload = jwt.decode(token, TEST_SECRET, algorithms=[TEST_ALGORITHM])
+    parsed_payload = jwt.decode(
+        jwt=token,
+        key=TEST_SECRET,
+        algorithms=[TEST_ALGORITHM]
+    )
     assert parsed_payload["content"] == content["content"]
 
 
@@ -26,7 +31,11 @@ def test_create_jwt_token_without_secret(content) -> None:
         algorithm=TEST_ALGORITHM
     )
     token = engine.encode(content)
-    parsed_payload = jwt.decode(token, engine.secret, algorithms=[TEST_ALGORITHM])
+    parsed_payload = jwt.decode(
+        jwt=token,
+        key=engine.secret,
+        algorithms=[TEST_ALGORITHM]
+    )
     assert parsed_payload["content"] == content["content"]
 
 

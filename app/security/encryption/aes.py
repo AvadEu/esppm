@@ -1,5 +1,6 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
+
 def encrypt(to_encrypt: str, key: bytes, initialization_vector: bytes) -> bytes:
     to_encrypt = to_encrypt.encode()
     encryptor = Cipher(

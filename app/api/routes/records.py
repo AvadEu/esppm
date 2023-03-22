@@ -20,8 +20,12 @@ import os
 
 router = APIRouter()
 
+
 @router.post('/records/add')
-def add_record(record: RecordPydantic, user: UserPydantic = Depends(get_current_user)):
+def add_record(
+    record: RecordPydantic,
+    user: UserPydantic = Depends(get_current_user)
+        ) -> JSONResponse:
     owner = get_user_by_username(user.username)
     secret = get_obj_by_owner(obj=Secret, owner=owner.username)
     initial_vector = os.urandom(16)
@@ -44,8 +48,15 @@ def add_record(record: RecordPydantic, user: UserPydantic = Depends(get_current_
 
 
 @router.get('/records')
-def get_records(body: GetRecords, user: UserPydantic = Depends(get_current_user)):
-    all_records = get_obj_by_owner(obj=Record,owner=user.username, all_objects=True)
+def get_records(
+    body: GetRecords,
+    user: UserPydantic = Depends(get_current_user)
+        ) -> JSONResponse:
+    all_records = get_obj_by_owner(
+        obj=Record,
+        owner=user.username,
+        all_objects=True
+        )
     salt = get_obj_by_owner(obj=Secret, owner=user.username).content
     output = []
     dec_key = generate_cipher_key(body.vault_password, salt=salt)
@@ -60,7 +71,10 @@ def get_records(body: GetRecords, user: UserPydantic = Depends(get_current_user)
 
 
 @router.delete('/records/delete')
-def delete_record(record_id: int, user: UserPydantic = Depends(get_current_user)):
+def delete_record(
+    record_id: int,
+    user: UserPydantic = Depends(get_current_user)
+        ) -> JSONResponse:
     try:
         delete_obj_by_id(
             obj=Record,

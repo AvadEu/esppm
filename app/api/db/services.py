@@ -26,7 +26,7 @@ def get_obj_by_owner(
         obj: Record | Secret,
         owner: str,
         all_objects: bool = False
-    ) -> list | None:
+        ) -> list | None:
     with db_connection.get_session() as session:
         res = session.query(obj).filter(obj.owner == owner)
         if all_objects:

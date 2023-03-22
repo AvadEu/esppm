@@ -1,5 +1,6 @@
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
+
 def generate_cipher_key(password: str, salt: bytes) -> bytes:
     kdf = Scrypt(
         salt=salt,

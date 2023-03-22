@@ -12,19 +12,20 @@ import os
 
 router = APIRouter()
 
+
 @router.post('/register')
 def register_user(user: RegisterUser):
     if not user.password == user.repeat_password:
         raise HTTPException(
-            status_code=HTTP_400_BAD_REQUEST, 
+            status_code=HTTP_400_BAD_REQUEST,
             detail="Passwords do not match!"
             )
-    
+
     password_hash = generate_hash(user.password)
     new_user = User(
         username=user.username,
         first_name=user.first_name,
-        last_name=user.last_name, 
+        last_name=user.last_name,
         password_hash=password_hash
         )
     users_secret = Secret(
@@ -33,7 +34,7 @@ def register_user(user: RegisterUser):
     )
     add_to_db(new_user)
     add_to_db(users_secret)
-    
+
     return JSONResponse(
         status_code=HTTP_201_CREATED,
         content={"detail": "User added successfully"}

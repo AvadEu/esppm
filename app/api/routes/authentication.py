@@ -14,18 +14,19 @@ router = APIRouter()
 
 load_dotenv()
 jwt_engine = JWTEngine(
-    secret=os.getenv('JWT_SECRET'), 
+    secret=os.getenv('JWT_SECRET'),
     algorithm=os.getenv("JWT_ALGORITHM")
     )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt_engine.decode(token)
         username = payload.get('username')
         user = get_user_by_username(username=username)
-    except:
+    except Exception:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
             detail='Invalid Credentials'
@@ -40,7 +41,10 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
 @router.post('/token')
 def login_for_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(username=form_data.username, password=form_data.password)
+    user = authenticate_user(
+        username=form_data.username,
+        password=form_data.password
+        )
     if not user:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,

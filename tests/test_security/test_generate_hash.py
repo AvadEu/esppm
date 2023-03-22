@@ -2,9 +2,11 @@ import pytest
 
 from app.security.generate_hash import generate_hash
 
+
 @pytest.fixture
 def hashed():
     return generate_hash("Test sentence")
+
 
 def test_hash_is_bytes(hashed):
     assert isinstance(hashed, bytes)

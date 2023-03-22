@@ -3,6 +3,7 @@ from sqlalchemy import TIMESTAMP, Column
 
 from datetime import datetime
 
+
 class Base(MappedAsDataclass, DeclarativeBase):
     created_at = Column(
         "created_at",

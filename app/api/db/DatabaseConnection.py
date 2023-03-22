@@ -4,10 +4,12 @@ from sqlalchemy.engine.base import Engine
 
 from app.api.models.domain.base import Base
 
+
 class DatabaseConnection():
     """
-    Constructor takes one argument: dictionary with keys [username, password, host, db_name] 
-    to connect to postgres database using psycopg2 connector. 
+    Constructor takes one argument: dictionary with keys
+    [username, password, host, db_name] to connect to
+    postgres database using psycopg2 connector.
     """
     def __init__(self, conf: dict) -> None:
         self.conf = conf
@@ -21,10 +23,10 @@ class DatabaseConnection():
     def get_engine(self, echo: bool = False) -> Engine:
         self.engine = create_engine(self.connection_string, echo=echo)
         return self.engine
-    
+
     def get_session(self) -> Session:
         new_session = Session(self.get_engine())
         return new_session
-    
+
     def init_all(self) -> None:
         Base.metadata.create_all(bind=self.engine, checkfirst=True)

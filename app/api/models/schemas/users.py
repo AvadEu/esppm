@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 # Class to handle api "/register" post request body
 class RegisterUser(BaseModel):
     username: str

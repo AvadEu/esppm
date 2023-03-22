@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class RecordPydantic(BaseModel):
     service: str
     login: str
