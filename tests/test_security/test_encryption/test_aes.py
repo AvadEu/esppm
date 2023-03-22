@@ -32,5 +32,5 @@ def test_decrypt(encrypted_payload) -> None:
         key=KEY,
         initialization_vector=IV
         )
-    assert isinstance(decrypted, str) 
+    assert isinstance(decrypted, str)
     assert decrypted == TO_ENCRYPT
