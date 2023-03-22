@@ -7,12 +7,10 @@ ENV/
 
 # Python cache
 /__pycache__
-/app/__pycache__
-/app/*/__pycache__
-/app/*/*/__pycache__
-/app/*/*/*/__pycache__
-tests/__pycache__
-tests/*/__pycache__
+/*/__pycache__
+/*/*/__pycache__
+/*/*/*/__pycache__
+/*/*/*/*/__pycache__
 
 #Pytest cashe
 .pytest_cache
