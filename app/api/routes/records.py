@@ -67,7 +67,10 @@ def get_records(
             "password": decrypt(record.password, dec_key, record.iv)
         }
         output.append(new_record)
-    return output
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=output
+    )
 
 
 @router.delete('/records/delete')

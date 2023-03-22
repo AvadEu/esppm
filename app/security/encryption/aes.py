@@ -17,4 +17,4 @@ def decrypt(ciphertext: bytes, key: bytes, initialization_vector: bytes) -> str:
         mode=modes.CFB(initialization_vector)
     ).decryptor()
     plain = decryptor.update(ciphertext) + decryptor.finalize()
-    return plain
+    return plain.decode()
