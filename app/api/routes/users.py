@@ -15,7 +15,7 @@ router = APIRouter()
 
 @router.post('/register')
 def register_user(user: RegisterUser):
-    if not user.password == user.repeat_password:
+    if user.password != user.repeat_password:
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
             detail="Passwords do not match!"
@@ -37,5 +37,5 @@ def register_user(user: RegisterUser):
 
     return JSONResponse(
         status_code=HTTP_201_CREATED,
-        content={"detail": "User added successfully"}
+        content={"detail": "User added successfully!"}
     )
