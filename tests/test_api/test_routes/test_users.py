@@ -1,20 +1,9 @@
-import pytest
 from starlette import status
 from fastapi.testclient import TestClient
 from sqlalchemy.exc import IntegrityError
 
 from unittest import mock
-
-
-@pytest.fixture
-def register_user() -> dict:
-    return {
-        "username": "test_username",
-        "first_name": "test_firstname",
-        "last_name": "test_lastname",
-        "password": "password",
-        "repeat_password": "password"
-    }
+from typing import Callable
 
 
 @mock.patch(
@@ -89,3 +78,19 @@ def test_user_register_bad_data(
         json=register_user
     )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+
+@mock.patch(
+        target="app.api.routes.users.delete_user_from_db",
+        return_value=None,
+        autospec=True
+    )
+def test_user_delete_user(
+    mock_delete_users_from_db: Callable,
+    authorized_client: TestClient
+        ) -> None:
+    response = authorized_client.delete(
+        url="/user/delete",
+        )
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == {"detail": "User deleted successfully!"}
