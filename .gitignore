@@ -15,6 +15,9 @@ ENV/
 #Pytest cashe
 .pytest_cache
 
+#mypy cache
+.mypy_cache
+
 # IDE Settings
 .idea/
 .vscode/
