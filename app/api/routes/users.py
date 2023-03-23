@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
-from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from starlette import status
 
-from app.api.models.schemas.users import RegisterUser
-from app.api.db.services import add_to_db
+from app.api.models.schemas.users import RegisterUser, UserPydantic
+from app.api.routes.authentication import get_current_user
+from app.api.db.services import add_to_db, delete_user_from_db
 from app.api.models.domain.users import User
 from app.api.models.domain.secrets import Secret
 from app.security import generate_hash
@@ -14,10 +15,10 @@ router = APIRouter()
 
 
 @router.post('/register')
-def register_user(user: RegisterUser):
+def register_user(user: RegisterUser) -> JSONResponse:
     if user.password != user.repeat_password:
         raise HTTPException(
-            status_code=HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Passwords do not match!"
             )
 
@@ -36,6 +37,17 @@ def register_user(user: RegisterUser):
     add_to_db(users_secret)
 
     return JSONResponse(
-        status_code=HTTP_201_CREATED,
+        status_code=status.HTTP_201_CREATED,
         content={"detail": "User added successfully!"}
+    )
+
+
+@router.delete('/user/delete')
+def delete_user(
+    user: UserPydantic = Depends(get_current_user)
+        ) -> JSONResponse:
+    delete_user_from_db(user.username)
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={"detail": "User deleted successfully!"}
     )

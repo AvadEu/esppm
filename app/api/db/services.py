@@ -46,6 +46,21 @@ def delete_obj_by_id(
             session.commit()
         else:
             raise ValueError(
-                "Theres no object type {} of id: {} in database"
+                "There is no object type {} of id: {} in database!"
                 .format(obj.__name__, obj_id)
                 )
+
+
+def delete_user_from_db(username: str) -> None:
+    with db_connection.get_session() as session:
+        user = session.query(User).filter(User.username == username)
+        try:
+            user_records = session.query(Record).filter(Record.owner == username)
+            user_records.delete(synchronize_session=False)
+            user_secret = session.query(Secret).filter(Secret.owner == username)
+            user_secret.delete(synchronize_session=False)
+        except Exception:
+            pass
+        finally:
+            user.delete(synchronize_session=False)
+            session.commit()
