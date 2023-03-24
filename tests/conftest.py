@@ -48,6 +48,16 @@ def register_user() -> dict:
 
 
 @pytest.fixture
+def record_response_model() -> dict:
+    return {
+        "record_id": 404,
+        "service": "test_service1",
+        "login": "decrypted_test_data",
+        "password": "decrypted_test_data"
+    }
+
+
+@pytest.fixture
 def token(client: TestClient) -> str:
     SECRET = os.getenv("JWT_SECRET")
     engine = JWTEngine(
