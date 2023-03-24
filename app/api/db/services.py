@@ -4,6 +4,8 @@ from app.api.models.domain.secrets import Secret
 from app.api.models.domain.users import User
 from app.utils.conf import read_conf
 
+from typing import List
+
 db_config = read_conf(conf_title="db_conf", filename='dev_conf.toml')
 db_connection = DatabaseConnection(db_config)
 db_connection.get_engine()
@@ -22,17 +24,16 @@ def get_user_by_username(username: str) -> User | None:
     return res
 
 
-def get_obj_by_owner(
-        obj: Record | Secret,
-        owner: str,
-        all_objects: bool = False
-        ) -> list | None:
+def get_secret_by_owner(owner: str) -> Secret | None:
     with db_connection.get_session() as session:
-        res = session.query(obj).filter(obj.owner == owner)
-        if all_objects:
-            return res.all()
-        else:
-            return res.first()
+        res = session.query(Secret).filter(Secret.owner == owner)
+    return res.first()
+
+
+def get_all_records_by_owner(owner: str) -> List[Record]:
+    with db_connection.get_session() as session:
+        res = session.query(Record).filter(Record.owner == owner)
+    return res.all()
 
 
 def delete_obj_by_id(

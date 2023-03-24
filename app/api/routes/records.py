@@ -5,14 +5,13 @@ from starlette import status
 from app.api.models.schemas.users import UserPydantic
 from app.api.models.schemas.records import RecordPydantic, GetRecords
 from app.api.models.domain.records import Record
-from app.api.models.domain.secrets import Secret
 from app.api.routes.authentication import get_current_user
-from app.security.encryption.aes import encrypt, decrypt
+from app.security.encryption.aes import encrypt_record, decrypt_record
 from app.security.encryption.generate_cipher_key import generate_cipher_key
 from app.api.db.services import (
     add_to_db,
-    get_user_by_username,
-    get_obj_by_owner,
+    get_secret_by_owner,
+    get_all_records_by_owner,
     delete_obj_by_id
     )
 
@@ -26,19 +25,17 @@ def add_record(
     record: RecordPydantic,
     user: UserPydantic = Depends(get_current_user)
         ) -> JSONResponse:
-    owner = get_user_by_username(user.username)
-    secret = get_obj_by_owner(obj=Secret, owner=owner.username)
+    secret = get_secret_by_owner(owner=user.username)
     initial_vector = os.urandom(16)
     enc_key = generate_cipher_key(
         password=record.vault_password,
         salt=secret.content
     )
-    new_record = Record(
-        service=record.service,
-        login=encrypt(record.login, enc_key, initial_vector),
-        password=encrypt(record.password, enc_key, initial_vector),
-        owner=owner.username,
-        iv=initial_vector
+    new_record = encrypt_record(
+        username=user.username,
+        record=record,
+        key=enc_key,
+        initialization_vector=initial_vector
     )
     add_to_db(new_record)
     return JSONResponse(
@@ -47,25 +44,24 @@ def add_record(
     )
 
 
-@router.get('/records')
+@router.post('/records')
 def get_records(
     body: GetRecords,
     user: UserPydantic = Depends(get_current_user)
         ) -> JSONResponse:
-    all_records = get_obj_by_owner(
-        obj=Record,
-        owner=user.username,
-        all_objects=True
-        )
-    salt = get_obj_by_owner(obj=Secret, owner=user.username).content
+    all_records = get_all_records_by_owner(owner=user.username)
+    secret = get_secret_by_owner(owner=user.username)
     output = []
-    dec_key = generate_cipher_key(body.vault_password, salt=salt)
+    dec_key = generate_cipher_key(
+        password=body.vault_password,
+        salt=secret.content
+    )
     for record in all_records:
-        new_record = {
-            "service": record.service,
-            "login": decrypt(record.login, dec_key, record.iv),
-            "password": decrypt(record.password, dec_key, record.iv)
-        }
+        new_record = decrypt_record(
+            record=record,
+            key=dec_key,
+            initialization_vector=record.iv
+        )
         output.append(new_record)
     return JSONResponse(
         status_code=status.HTTP_200_OK,
