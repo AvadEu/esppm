@@ -139,10 +139,10 @@ def delete_record(
         )
     except ValueError:
         raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="There's no record of id {}".format(record_id)
         )
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content={'detail': 'Record deleted successfully'}
+        content={'detail': 'Record deleted successfully!'}
     )

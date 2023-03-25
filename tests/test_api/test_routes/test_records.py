@@ -78,3 +78,37 @@ def test_get_records_no_auth(
         json={"vault_password": "test_vault_password"}
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+@mock.patch(
+        target="app.api.routes.records.delete_obj_by_id",
+        return_value=None,
+        autospec=True
+)
+def test_delete_record_proper(
+    mock_delete_obj_by_id: mock.MagicMock,
+    authorized_client: TestClient
+        ) -> None:
+    response = authorized_client.delete(
+        url="/records/delete",
+        params={"record_id": 5}
+    )
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == {"detail": "Record deleted successfully!"}
+
+
+@mock.patch(
+        target="app.api.routes.records.delete_obj_by_id",
+        return_value=None,
+        autospec=True
+)
+def test_delete_record_not_exists(
+    mock_delete_obj_by_id: mock.MagicMock,
+    authorized_client: TestClient
+        ) -> None:
+    mock_delete_obj_by_id.side_effect = ValueError()
+    response = authorized_client.delete(
+        url="/records/delete",
+        params={"record_id": 5}
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
