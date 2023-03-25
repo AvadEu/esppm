@@ -10,3 +10,9 @@ class RecordPydantic(BaseModel):
 
 class GetRecords(BaseModel):
     vault_password: str
+
+
+class RecordUpdatePydantic(RecordPydantic):
+    service: str | None = None
+    login: str | None = None
+    password: str | None = None
