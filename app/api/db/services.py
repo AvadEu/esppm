@@ -36,6 +36,31 @@ def get_all_records_by_owner(owner: str) -> List[Record]:
     return res.all()
 
 
+def get_record_by_id(record_id: int) -> Record:
+    with db_connection.get_session() as session:
+        res = session.query(Record).filter(Record.id == record_id).first()
+    if res is None:
+        raise ValueError("There's no record of id: {} in database!".format(record_id))
+    else:
+        return res
+
+
+def update_record_in_db(
+    old_decrypted: dict,
+    new_record: Record
+        ) -> None:
+    with db_connection.get_session() as session:
+        session.query(Record)\
+            .filter(Record.id == old_decrypted["record_id"])\
+            .update({
+                "service": new_record.service,
+                "login": new_record.login,
+                "password": new_record.password
+            })
+        session.commit()
+    return None
+
+
 def delete_obj_by_id(
         obj: Record | Secret,
         obj_id: int
