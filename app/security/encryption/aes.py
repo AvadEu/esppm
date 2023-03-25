@@ -24,7 +24,7 @@ def __decrypt(ciphertext: bytes, key: bytes, initialization_vector: bytes) -> st
 
 
 def encrypt_record(
-    username: str,
+    owner_username: str,
     record: RecordPydantic,
     key: bytes,
     initialization_vector: bytes
@@ -33,7 +33,7 @@ def encrypt_record(
         service=record.service,
         login=__encrypt(record.login, key, initialization_vector),
         password=__encrypt(record.password, key, initialization_vector),
-        owner=username,
+        owner=owner_username,
         iv=initialization_vector
     )
     return encrypted_record

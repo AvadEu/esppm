@@ -51,7 +51,7 @@ def test_encrypt_record(record_response_model) -> None:
         password=record_response_model["password"]
     )
     encrypted_record = encrypt_record(
-        username="test_owner",
+        owner_username="test_owner",
         record=sample_record,
         key=KEY,
         initialization_vector=IV
