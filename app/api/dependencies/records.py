@@ -33,4 +33,3 @@ def update_record_data(
         old_decrypted=old_decrypted_record,
         new_record=new_record_encrypted
     )
-    return None

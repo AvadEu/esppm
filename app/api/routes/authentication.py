@@ -56,8 +56,3 @@ def login_for_token(form_data: OAuth2PasswordRequestForm = Depends()):
         'access_token': token,
         'token_type': 'bearer'
     }
-
-
-@router.get('/private')
-def private(user: UserPydantic = Depends(get_current_user)):
-    return {'Access': "Granted"}
