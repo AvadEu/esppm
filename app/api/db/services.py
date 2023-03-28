@@ -2,12 +2,13 @@ from app.api.db.DatabaseConnection import DatabaseConnection
 from app.api.models.domain.records import Record
 from app.api.models.domain.secrets import Secret
 from app.api.models.domain.users import User
-from app.utils.conf import read_conf
+from dotenv import load_dotenv
 
+import os
 from typing import List
 
-db_config = read_conf(conf_title="db_conf", filename='dev_conf.toml')
-db_connection = DatabaseConnection(db_config)
+load_dotenv()
+db_connection = DatabaseConnection(os.getenv("DB_PATH"))
 db_connection.get_engine()
 db_connection.init_all()
 
