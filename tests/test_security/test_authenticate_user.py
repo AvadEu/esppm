@@ -1,15 +1,18 @@
 from app.security.authenticate_user import authenticate_user
-from tests.conftest import sample_user
+from app.api.models.domain.users import User
 
 from unittest import mock
 
 
 @mock.patch(
     'app.security.authenticate_user.get_user_by_username',
-    return_value=sample_user,
     autospec=True
 )
-def test_authenticate_user(mock_get_user_by_username, user):
+def test_authenticate_user(
+    mock_get_user_by_username: mock.MagicMock,
+    user: User
+        ) -> None:
+    mock_get_user_by_username.return_value = user
     assert authenticate_user("test_username", "test_password") == user
 
 

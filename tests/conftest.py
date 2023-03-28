@@ -11,13 +11,6 @@ import os
 
 load_dotenv()
 
-sample_user = User(
-        username="test_username",
-        first_name="test_firstname",
-        last_name="test_lastname",
-        password_hash=generate_hash("test_password")
-    )
-
 
 @pytest.fixture
 def app() -> FastAPI:
@@ -33,7 +26,12 @@ def client(app: FastAPI) -> TestClient:
 
 @pytest.fixture
 def user() -> User:
-    return sample_user
+    return User(
+        username="test_username",
+        first_name="test_firstname",
+        last_name="test_lastname",
+        password_hash=generate_hash("test_password")
+    )
 
 
 @pytest.fixture
