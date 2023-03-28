@@ -15,6 +15,6 @@ class User(Base):
     def get_token_payload(self):
         return {
             'username': self.username,
-            'fist_name': self.first_name,
+            'first_name': self.first_name,
             'last_name': self.last_name
         }
