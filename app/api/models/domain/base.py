@@ -11,3 +11,6 @@ class Base(MappedAsDataclass, DeclarativeBase):
         nullable=False,
         default=datetime.now().isoformat()
         )
+
+    def to_dict(self) -> dict:
+        return {k: v for k, v in self.__dict__.items() if not k.startswith('__')}
