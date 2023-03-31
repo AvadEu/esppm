@@ -2,9 +2,3 @@
 host = "127.0.0.1"
 port = 8080
 reload = false
-
-[db_conf]
-username = "postgres"
-password = ""
-host = "127.0.0.1"
-db_name = "esppm"

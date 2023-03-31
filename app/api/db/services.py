@@ -8,7 +8,7 @@ import os
 from typing import List
 
 load_dotenv()
-db_connection = DatabaseConnection(os.getenv("DB_PATH"))
+db_connection = DatabaseConnection(os.getenv("DATABASE_URL"))
 db_connection.get_engine()
 db_connection.init_all()
 
