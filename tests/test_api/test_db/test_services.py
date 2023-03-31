@@ -216,3 +216,25 @@ def test_update_record_in_db(
     except ValueError:
         assert False
     assert res.service == "different_service"
+
+
+@mock.patch(target="app.api.db.services.db_connection.get_engine")
+def test_delete_user_from_db(
+    mock_db_get_engine: mock.MagicMock,
+    test_database_connection: DatabaseConnection,
+    test_record_body: Record,
+    user: User
+        ) -> None:
+    mock_db_get_engine.return_value = test_database_connection.get_engine()
+    username = user.username
+    try:
+        user.created_at = datetime.now()
+        add_to_db(user)
+    except Exception:
+        assert False
+    delete_user_from_db(username=username)
+    with pytest.raises(ValueError):
+        get_secret_by_owner(owner=username)
+    with pytest.raises(ValueError):
+        get_user_by_username(username=username)
+    assert get_all_records_by_owner(owner=username) == []
