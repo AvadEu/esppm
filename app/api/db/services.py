@@ -19,16 +19,22 @@ def add_to_db(obj: User | Secret | Record) -> None:
         session.commit()
 
 
-def get_user_by_username(username: str) -> User | None:
+def get_user_by_username(username: str) -> User:
     with db_connection.get_session() as session:
         res = session.query(User).filter(User.username == username).first()
-    return res
+        if res is None:
+            raise ValueError("There's no user with provided username!")
+        else:
+            return res
 
 
-def get_secret_by_owner(owner: str) -> Secret | None:
+def get_secret_by_owner(owner: str) -> Secret:
     with db_connection.get_session() as session:
-        res = session.query(Secret).filter(Secret.owner == owner)
-    return res.first()
+        res = session.query(Secret).filter(Secret.owner == owner).first()
+        if res is None:
+            raise ValueError("There's no user with provided username!")
+        else:
+            return res
 
 
 def get_all_records_by_owner(owner: str) -> List[Record]:
