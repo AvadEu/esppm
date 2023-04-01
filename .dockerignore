@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache
+.venv
+.vscode
+README.md
+test.db
+.env.example
+.git*
+tests
