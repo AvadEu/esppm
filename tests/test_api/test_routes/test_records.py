@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 from starlette import status
 
 from unittest import mock
-from typing import Callable
 
 
 def get_new_record_dict() -> dict:
@@ -21,7 +20,7 @@ def get_new_record_dict() -> dict:
         autospec=True
 )
 def test_add_record_proper(
-    mock_add_to_db: Callable,
+    mock_add_to_db: mock.MagicMock,
     authorized_client: TestClient
         ) -> None:
     response = authorized_client.post(
@@ -57,8 +56,8 @@ def test_add_record_bad_data(
     autospec=True
 )
 def test_get_records_proper(
-    mock_decrypt_record: Callable,
-    record_response_model: Callable,
+    mock_decrypt_record: mock.MagicMock,
+    record_response_model: mock.MagicMock,
     authorized_client: TestClient
         ) -> None:
     mock_decrypt_record.return_value = record_response_model
