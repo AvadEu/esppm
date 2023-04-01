@@ -56,15 +56,15 @@ def record_response_model() -> dict:
 
 
 @pytest.fixture
-def token(client: TestClient) -> str:
+def token() -> str:
     SECRET = os.getenv("JWT_SECRET")
     engine = JWTEngine(
         secret=SECRET
             )
     return engine.encode({
-        "username": "AvadEu",
-        "first_name": "fName",
-        "last_name": "lName"
+        "username": "test_username",
+        "first_name": "test_firstname",
+        "last_name": "test_lastname"
     })
 
 
