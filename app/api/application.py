@@ -14,3 +14,6 @@ def get_application() -> FastAPI:
     application.add_exception_handler(IntegrityError, integrity_error_handler)
 
     return application
+
+
+app = get_application()

@@ -24,14 +24,16 @@ There's one last step before you launch an application which is creating ``.env`
 
 The last step us to launch application. There are two ways to do it.
 
-1.  First one is to configure settings we care about in ``conf.toml`` file and run ``launch.py`` module.
+1. First one is to configure settings we care about in ``conf.toml`` file and run ``launch.py`` module.
+
     ```shell
     python launch.py
     ```
 
-2.  Second way is to manually start server using `uvicorn`.
+2. Second way is to manually start server using `uvicorn`.
+
     ```shell
-    uvicorn app.api.application:app
+    uvicorn app.api.application:app --host 0.0.0.0 --port 8080
     ```
 
 ## Project structure&nbsp; 🏗️
