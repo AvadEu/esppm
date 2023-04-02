@@ -16,11 +16,23 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-There's one last step before you launch an application which is creating ``.env`` file (or modifying ``.env.example``).
+There's one last step before you launch an application which is creating ``.env`` file (or modifying ``.env.example``) in project's root directory.
 
 | :warning: **WARNING**                                                                                         |
 |:--------------------------------------------------------------------------------------------------------------|
-| **Do not use application with default values from ``.env.example`` It will make your application vulnerable**.|
+| Do not use application with default values from ``.env.example`` It will make your application vulnerable.    |
+
+The last step us to launch application. There are two ways to do it.
+
+1.  First one is to configure settings we care about in ``conf.toml`` file and run ``launch.py`` module.
+    ```shell
+    python launch.py
+    ```
+
+2.  Second way is to manually start server using `uvicorn`.
+    ```shell
+    uvicorn app.api.application:app
+    ```
 
 ## Project structure&nbsp; 🏗️
 
