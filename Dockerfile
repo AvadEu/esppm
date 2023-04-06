@@ -1,6 +1,8 @@
-FROM python:3.11.2-slim-buster
+FROM python:3.11-slim
 
 WORKDIR /core
+
+ENV PYTHONBUFFERED 1
 
 RUN python -m venv .venv
 RUN /bin/bash -c "source ./.venv/bin/activate"
