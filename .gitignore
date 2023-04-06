@@ -24,3 +24,7 @@ ENV/
 
 #Test db
 test.db
+
+# Docker-compose postgres files
+postgres-data
+pg
