@@ -1,5 +1,15 @@
 # Extremely safe private password manager 🔒
 
+## Quickstart with Docker 🐳
+
+-----------
+
+The fastest way to launch the application is to use ``docker-compose``. Create ``.env`` file. The default port application is running is ``4200``.
+
+```shell
+docker-compose -d up
+```
+
 ## Setup & Installation 🛠️
 
 -----------
