@@ -2,7 +2,7 @@ version: '3'
 services:
   api:
     container_name: esppm_api
-    image: avadeu/esppm:0.8
+    build: .
     restart: on-failure
     ports:
       - "4200:4200"
