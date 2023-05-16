@@ -1,5 +1,7 @@
 # Extremely safe private password manager 🔒
 
+<img align="left" src="https://ibb.co/p2MmvXq" alt="project cover">
+
 ## Quickstart with Docker 🐳
 
 -----------
